@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync, renameSync, stat, statSync } from 'fs';
+import { existsSync, readdirSync, readFileSync, renameSync } from 'fs';
 import { resolve, extname, basename } from 'path';
 import { generateFileNameFromContent } from './services/openAI.service';
 import logger from '../logger';
@@ -7,7 +7,7 @@ import { sanitizeFileName } from './utils';
 import { handleError } from './error/errorHandler';
 import { CLIArguments } from './types';
 
-export const renameFilesInDirectory = async (directoryPath: string, args: CLIArguments): Promise<void> => {
+export const renameFilesInDirectory = async (directoryPath: directoryPath, args: CLIArguments): Promise<void> => {
     try {
 
         const files = readdirSync(directoryPath);
@@ -17,7 +17,7 @@ export const renameFilesInDirectory = async (directoryPath: string, args: CLIArg
             return;
         }
         const { renamedCount, skippedCount } = await files.reduce(async (accPromise, file) => {
-            
+
             const acc = await accPromise;
 
             if (extname(file) !== '.txt') {

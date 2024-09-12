@@ -1,11 +1,11 @@
-import { statSync } from "fs";
+import { stat } from 'fs/promises';
 import logger from "../logger";
 import { renameFilesInDirectory, renameSingleFile } from "./renameFiles";
 import { CLIArguments } from "./types";
 import { filePath } from "./types/renameFiles";
 
 export const processPath = async (path: filePath , args : CLIArguments) => {
-    const stats = statSync(path);
+    const stats = await stat(path);
 
     if (stats.isDirectory()) {
         logger.debug(`Renaming files in directory: ${path}`);

@@ -14,6 +14,6 @@ export const handleError = (error: any, debug: boolean = false): void => {
 
   if (debug) {
     logger.debug('Debug mode is enabled, throwing error for stack trace.');
-    throw error;
+    throw error.stack;
   }
 };
