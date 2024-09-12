@@ -1,3 +1,4 @@
+import logger from "../logger";
 import { fileName } from "./types/renameFiles";
 
 export const httpRequest = async (
@@ -7,6 +8,7 @@ export const httpRequest = async (
     headers: Record<string, string> = {}
 ): Promise<any> => {
     try {
+        logger.debug(`HTTP Request: ${method} ${url}`);
         const response = await fetch(url, {
             method,
             headers: {
@@ -23,7 +25,7 @@ export const httpRequest = async (
 
         return await response.json();
     } catch (error) {
-        console.error('HTTP Request failed:', error);
+        logger.error(`HTTP Request failed: ${error}`);
         throw error;
     }
 };
