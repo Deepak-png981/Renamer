@@ -13,9 +13,10 @@ export async function processMarkdownFile(filePath: filePath, content: fileConte
     const topics: string[] = extractTopicsFromMarkdown(content);
 
     const prompt : string = getPromptForMDContent(metadata, headings, keywords, topics);
-
     const suggestedFileName = await generateFileName(prompt);
-    
+    if(!suggestedFileName){
+        return null;
+    }
     const newFileName = sanitizeFileName(suggestedFileName);
     return newFileName;
     
