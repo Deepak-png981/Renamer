@@ -23,15 +23,15 @@ export const renameFilesInDirectory = async (directoryPath: directoryPath, args:
             return;
         }
 
-        const processResults = await Promise.all(
+        const processResults = await Promise.allSettled(
             files.map(async (file) => {
                 const filePath = resolve(directoryPath, file);
                 return await processFile(filePath, args);
             })
         );
 
-        const renamedCount = processResults.filter((result) => result === 'renamed').length;
-        const skippedCount = processResults.filter((result) => result !== 'renamed').length;
+        const renamedCount = processResults.filter((result) => result.status === 'fulfilled' && result.value === 'renamed').length;
+        const skippedCount = processResults.filter((result) => result.status === 'rejected' || result.value !== 'renamed').length;
 
         logger.info(`Rename operation complete. ${renamedCount} files renamed, ${skippedCount} files skipped.`);
     } catch (error) {
