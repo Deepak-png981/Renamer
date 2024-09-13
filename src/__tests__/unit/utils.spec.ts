@@ -1,12 +1,40 @@
 import { httpRequest, sanitizeFileName } from '../../utils';  
 import logger from '../../../logger';
-
+import { processFile } from '../../utils';
+import fs from 'fs';
 global.fetch = jest.fn();
 
 jest.mock('../../../logger', () => ({
   debug: jest.fn(),
   error: jest.fn(),
 }));
+jest.mock('../../services/openAI.service', () => ({
+  generateFileNameFromContent: jest.fn(),
+}));
+jest.mock('fs', () => ({
+  promises: {
+    access: jest.fn(),
+    readFile: jest.fn(),
+    rename: jest.fn(),
+  },
+  existsSync: jest.fn(),
+}));
+
+describe('processFile', () => {
+  const mockArgs = { path: '/path/to/file.txt', debug: false }; 
+  const mockFilePath = '/path/to/file.txt';
+  it('should skip if file does not exist', async () => {
+    (fs.promises.access as jest.Mock).mockRejectedValue(new Error('File not found'));
+
+    const result = await processFile(mockFilePath, mockArgs);
+
+    expect(fs.promises.access).toHaveBeenCalledWith(mockFilePath);
+    expect(logger.error).toHaveBeenCalledWith(`File does not exist at path: ${mockFilePath}`);
+    expect(result).toBe('skipped');
+  });
+});
+
+
 
 describe('Utility Functions', () => {
   describe('httpRequest', () => {
