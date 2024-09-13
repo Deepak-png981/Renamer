@@ -29,7 +29,8 @@ describe('Renamer E2E Tests', () => {
     expect(stdout).toContain('Rename operation complete.');
   });
   test('renames markdown files as expected', async () => {
-    const { stdout } = await execa('npx', ['ts-node', 'renamer.ts', '--path', `${testDir}\\test.md`, '--debug']);
+    const markdownFilePath = path.join(testDir, 'test.md');
+    const { stdout } = await execa('npx', ['ts-node', 'renamer.ts', '--path', markdownFilePath, '--debug']);
     expect(stdout).toContain('Starting file renamer...');
     expect(stdout).toContain('Renamed test.md to');
     const files = fs.readdirSync(testDir);
