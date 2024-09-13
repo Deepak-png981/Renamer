@@ -28,7 +28,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Set environment variables
+        run: echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
+
       - name: Run tests
+        env:
+            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npm test
 
       - name: Cache node_modules
