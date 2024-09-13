@@ -1,10 +1,10 @@
-import { httpRequest } from "../utils";
+import { cleanFileNameExtension, httpRequest } from "../utils";
 import dotenv from 'dotenv';
 dotenv.config();
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 
-export const generateFileNameFromContent = async (content: string): Promise<string> => {
+export const generateFileName = async (content: string): Promise<string> => {
   try {
     const data = {
       model: 'gpt-4',
@@ -30,7 +30,7 @@ export const generateFileNameFromContent = async (content: string): Promise<stri
       }
     );
     const fileName = response.choices[0]?.message?.content?.trim();
-    return fileName;
+    return cleanFileNameExtension(fileName);
   } catch (error) {
     console.error('Error generating filename from content:', error);
     throw error;

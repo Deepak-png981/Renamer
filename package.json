@@ -1,6 +1,6 @@
 {
   "name": "renamer",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "AI file renamer",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,8 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
+    "js-yaml": "^4.1.0",
+    "natural": "^8.0.1",
     "openai": "^4.59.0",
     "path": "^0.12.7",
     "pino": "^9.4.0",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.13",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.5.4",
     "@types/yargs": "^17.0.33",
     "execa": "^5.1.1",

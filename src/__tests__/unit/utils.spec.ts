@@ -8,9 +8,6 @@ jest.mock('../../../logger', () => ({
   debug: jest.fn(),
   error: jest.fn(),
 }));
-jest.mock('../../services/openAI.service', () => ({
-  generateFileNameFromContent: jest.fn(),
-}));
 jest.mock('fs', () => ({
   promises: {
     access: jest.fn(),

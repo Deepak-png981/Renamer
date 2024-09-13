@@ -1,10 +1,11 @@
 import { basename, extname, resolve } from "path";
 import logger from "../logger";
-import { fileName } from "./types/renameFiles";
-import { generateFileNameFromContent } from "./services/openAI.service";
+import { fileName, filePath } from "./types/renameFiles";
 import { CLIArguments } from "./types";
 import { handleError } from "./error/errorHandler";
-import fs ,{ promises as fsPromises } from 'fs';
+import fs, { promises as fsPromises } from 'fs';
+import { processMarkdownFile } from "./markdown";
+import { processTextFile } from "./text";
 
 const { access, readFile, rename } = fsPromises;
 
@@ -39,22 +40,17 @@ export const httpRequest = async (
 };
 
 export const sanitizeFileName = (fileName: fileName): fileName => {
-    return fileName.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').trim();    
+    return fileName.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').trim();
 };
 
 
-export async function processFile(filePath: string, args: CLIArguments): Promise<'renamed' | 'skipped' | 'error'> {
+export async function processFile(filePath: filePath, args: CLIArguments): Promise<'renamed' | 'skipped' | 'error'> {
     try {
-        
+
         try {
             await access(filePath);
         } catch {
             logger.error(`File does not exist at path: ${filePath}`);
-            return 'skipped';
-        }
-
-        if (extname(filePath) !== '.txt') {
-            logger.info(`Skipping unsupported file type: ${basename(filePath)}`);
             return 'skipped';
         }
 
@@ -64,37 +60,41 @@ export async function processFile(filePath: string, args: CLIArguments): Promise
             return 'skipped';
         }
 
-        const suggestedFileName = await generateFileNameFromContent(content);
-        if (!suggestedFileName) {
-            logger.error(`Failed to generate a new file name for ${basename(filePath)}`);
-            return 'skipped';
-        }
+        const fileExtension = extname(filePath);
 
-        const newFileName = sanitizeFileName(suggestedFileName);
+        const newFileName = fileExtension === '.txt'
+            ? await processTextFile(filePath, content)
+            : fileExtension === '.md'
+                ? await processMarkdownFile(filePath, content)
+                : null;
         if (!newFileName) {
-            logger.error(`Sanitized file name is invalid for ${basename(filePath)}`);
+            logger.info(`Skipping unsupported or empty file type: ${basename(filePath)}`);
             return 'skipped';
         }
 
         const directoryPath = resolve(filePath, '..');
-        const newFilePath = resolve(directoryPath, `${newFileName}.txt`);
+        const newFilePath = resolve(directoryPath, `${newFileName}${fileExtension}`);
 
         if (filePath === newFilePath) {
             logger.info(`File ${basename(filePath)} already has the correct name, skipping rename.`);
             return 'skipped';
         }
 
-        if(fs.existsSync(newFilePath)) {
-            logger.error(`A file named ${newFileName}.txt already exists. Skipping rename for ${basename(filePath)}.`);
+        if (fs.existsSync(newFilePath)) {
+            logger.error(`A file named ${newFileName}${fileExtension} already exists. Skipping rename for ${basename(filePath)}.`);
             return 'skipped';
         }
-        
 
         await rename(filePath, newFilePath);
-        logger.info(`Renamed ${basename(filePath)} to ${newFileName}.txt`);
+        logger.info(`Renamed ${basename(filePath)} to ${newFileName}${fileExtension}`);
         return 'renamed';
     } catch (error) {
         logger.error(`Failed to rename file ${basename(filePath)}:`, handleError(error, args.debug));
         return 'error';
     }
 }
+
+export const cleanFileNameExtension = (fileName: fileName): fileName => {
+    const extensionRegex = /\.[a-zA-Z0-9]+$/;
+    return fileName.replace(extensionRegex, '');
+};
