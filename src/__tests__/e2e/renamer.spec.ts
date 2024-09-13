@@ -4,7 +4,7 @@ import path from 'path';
 
 const testDir = './testDataForE2E';
 jest.setTimeout(180000);
-describe('CLI E2E Tests', () => {
+describe('Renamer E2E Tests', () => {
   beforeAll(() => {
     if (!fs.existsSync(testDir)) {
       fs.mkdirSync(testDir);
