@@ -1,12 +1,69 @@
 import { httpRequest, sanitizeFileName } from '../../utils';  
 import logger from '../../../logger';
-
+import { processFile } from '../../utils';
+import fs from 'fs';
+import { basename } from 'path';
+import { processTextFile } from '../../text';
 global.fetch = jest.fn();
 
 jest.mock('../../../logger', () => ({
   debug: jest.fn(),
   error: jest.fn(),
+  warn: jest.fn(),
+  info: jest.fn(),
 }));
+jest.mock('../../text', () => ({
+  processTextFile: jest.fn(), 
+}));
+jest.mock('fs', () => ({
+  promises: {
+    access: jest.fn(),
+    readFile: jest.fn(),
+    rename: jest.fn(),
+  },
+  existsSync: jest.fn(),
+}));
+
+describe('processFile', () => {
+  const mockArgs = { path: '/path/to/file.txt', debug: false }; 
+  const mockFilePath = '/path/to/file.txt';
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should skip if file does not exist', async () => {
+    (fs.promises.access as jest.Mock).mockRejectedValue(new Error('File not found'));
+
+    const result = await processFile(mockFilePath, mockArgs);
+
+    expect(fs.promises.access).toHaveBeenCalledWith(mockFilePath);
+    expect(logger.error).toHaveBeenCalledWith(`File does not exist at path: ${mockFilePath}`);
+    expect(result).toBe('skipped');
+  });
+  it('should skip if file is empty', async () => {
+    (fs.promises.access as jest.Mock).mockResolvedValue(undefined);
+    (fs.promises.readFile as jest.Mock).mockResolvedValue('');
+
+    const result = await processFile(mockFilePath, mockArgs);
+    
+    expect(logger.warn).toHaveBeenCalledWith(`File ${basename(mockFilePath)} is empty, skipping rename.`);
+    expect(result).toBe('skipped');
+  });
+  it('should skip renaming if file already has the correct name', async () => {
+    const mockContent = 'Some file content';
+    const mockNewFileName = 'file';
+    
+    (fs.promises.access as jest.Mock).mockResolvedValue(undefined);
+    (fs.promises.readFile as jest.Mock).mockResolvedValue(mockContent);
+    (processTextFile as jest.Mock).mockResolvedValue(mockNewFileName);
+    
+    const result = await processFile(mockFilePath, mockArgs);
+
+    expect(logger.info).toHaveBeenCalledWith(`File ${basename(mockFilePath)} already has the correct name, skipping rename.`);
+    expect(result).toBe('skipped');
+  });
+});
+
+
 
 describe('Utility Functions', () => {
   describe('httpRequest', () => {
