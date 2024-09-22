@@ -9,7 +9,7 @@
     "clean": "rm -rf ./lib/ ./dist/",
     "test": "jest",
     "build": "tsc",  
-    "package": "pkg . --targets node18-linux-x64,node18-macos-x64,node18-win-x64 --output ./bin/renamer"
+    "package": "pkg . --targets node18-win-x64 --output ./bin/renamer"
   },
   "keywords": [],
   "author": "Deepak Joshi",
