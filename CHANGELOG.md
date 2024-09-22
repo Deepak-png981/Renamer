@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/Deepak-png981/Renamer/compare/v1.0.2...v1.0.3) (2024-09-22)
+
+
+### Bug Fixes
+
+* updated the binaries bin name. ([83a2283](https://github.com/Deepak-png981/Renamer/commit/83a2283a7b7a65d10641c4413698a0133ebbfc7e))
+
 ## [1.0.2](https://github.com/Deepak-png981/Renamer/compare/v1.0.1...v1.0.2) (2024-09-22)
 
 
