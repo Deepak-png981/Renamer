@@ -1,16 +1,20 @@
 {
-    "branches": ["main"],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      "@semantic-release/git",
-      [
-        "@semantic-release/github",
-        {
-          "releasedLabels": ["released"]  
-        }
-      ]
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/git",
+    [
+      "@semantic-release/github",
+      {
+        "releasedLabels": ["released"],
+        "assets": [
+          {"path": "bin/renamer-linux", "label": "Renamer Linux x64"},
+          {"path": "bin/renamer-win.exe", "label": "Renamer Windows x64"},
+          {"path": "bin/renamer-macos", "label": "Renamer macOS x64"}
+        ]
+      }
     ]
-  }
-  
+  ]
+}
