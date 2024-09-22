@@ -6,8 +6,7 @@ import natural from 'natural';
 export const extractMarkdownMetadata = (content: fileContent , filePath: filePath): Record<string, string> | null => {
     const metadataRegex = /^---\n([\s\S]+?)\n---/; 
     const match = content.match(metadataRegex);
-    if (!match) return null;
-
+    if (!match || !match[1]) return null;
     try {
         return yaml.load(match[1]) as Record<string, string>;
     } catch (e) {
@@ -21,7 +20,8 @@ export const extractMarkdownHeadings = (content: fileContent): string[] => {
     const headings: string[] = [];
 
     for (const match of content.matchAll(headingRegex)) {
-        headings.push(match[2]); 
+        if(match[2])
+            headings.push(match[2]); 
     }
 
     return headings;
