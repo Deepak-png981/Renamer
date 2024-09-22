@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Deepak-png981/Renamer/compare/v1.0.1...v1.0.2) (2024-09-22)
+
+
+### Bug Fixes
+
+* keeping the windows binaries for now only. ([60443e4](https://github.com/Deepak-png981/Renamer/commit/60443e485f658e14bc1507965e016b94c0eae4d8))
+
 ## [1.0.1](https://github.com/Deepak-png981/Renamer/compare/v1.0.0...v1.0.1) (2024-09-22)
 
 
