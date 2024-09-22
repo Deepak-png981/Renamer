@@ -1,5 +1,9 @@
 # Change log
 
+## 1.3.0 (22-09-2024)
+
+- Added binary release pipeline.
+
 ## 1.2.0 (14/09/2024)
 
 - Added support for markdown files.
