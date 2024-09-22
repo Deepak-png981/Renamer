@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Deepak-png981/Renamer/compare/v1.0.0...v1.0.1) (2024-09-22)
+
+
+### Bug Fixes
+
+* updated the release pipelines to include the macos, linux and windows binaries. ([1599812](https://github.com/Deepak-png981/Renamer/commit/1599812c38e2fe7de5d7eb10d51e625c30e6e2e6))
+
 # 1.0.0 (2024-09-22)
 
 
