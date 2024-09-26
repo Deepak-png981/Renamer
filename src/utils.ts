@@ -1,4 +1,4 @@
-import { basename, extname, resolve } from "path";
+import path, { basename, extname, resolve } from "path";
 import logger from "../logger";
 import { fileContent, fileName, filePath } from "./types/renameFiles";
 import { CLIArguments } from "./types";
@@ -80,7 +80,17 @@ async function determineNewFileName(filePath: filePath, content: fileContent): P
     }
 }
 
-async function renameFileIfNecessary(filePath: filePath, newFileName: fileName): Promise<'renamed' | 'skipped'> {
+export const writeRenamedInfoToFile = async (renamedInfo: Record<string, { suggested_name: fileName }> , args: CLIArguments) => {
+    const filePath = path.join(process.cwd(), args.output);
+    try {
+        await fsPromises.writeFile(filePath, JSON.stringify(renamedInfo, null, 2), 'utf-8');
+        logger.info(`Renamed info successfully saved to ${filePath}`);
+    } catch (error) {
+        logger.error(`Failed to write renamed info to ${filePath}: ${error}`);
+    }
+}
+
+async function renameFileIfNecessary(filePath: filePath, newFileName: fileName): Promise<{ status: 'renamed' | 'skipped', newFilePath: string | null }> {
 
     const fileExtension = extname(filePath);
     
@@ -92,38 +102,38 @@ async function renameFileIfNecessary(filePath: filePath, newFileName: fileName):
 
     if (resolvedFilePath === newFilePath) {
         logger.info(`File ${basename(resolvedFilePath)} already has the correct name, skipping rename.`);
-        return 'skipped';
+        return { status: 'skipped', newFilePath: null };
     }
 
     if (fs.existsSync(newFilePath)) {
         logger.error(`A file named ${newFileName}${fileExtension} already exists. Skipping rename for ${basename(resolvedFilePath)}.`);
-        return 'skipped';
+        return { status: 'skipped', newFilePath: null };
     }
 
     await rename(resolvedFilePath, newFilePath);
     logger.info(`Renamed ${basename(resolvedFilePath)} to ${newFileName}${fileExtension}`);
-    return 'renamed';
+    return { status: 'renamed', newFilePath };;
 }
 
-export async function processFile(filePath: filePath, args: CLIArguments): Promise<'renamed' | 'skipped' | 'error'> {
+export async function processFile(filePath: filePath, args: CLIArguments): Promise<{ status: 'renamed' | 'skipped' | 'error', newFilePath: string | null }> {
     try {
         
-        if (!await checkFileExists(filePath)) return 'skipped';
+        if (!await checkFileExists(filePath)) return { status: 'skipped', newFilePath: null };
 
         
         const content : fileContent | null = await readFileContent(filePath);
-        if (!content) return 'skipped';
+        if (!content) return { status: 'skipped', newFilePath: null };
 
         
         const newFileName = await determineNewFileName(filePath, content);
-        if (!newFileName) return 'skipped';
+        if (!newFileName) return { status: 'skipped', newFilePath: null };
 
         
         return await renameFileIfNecessary(filePath, newFileName);
         
     } catch (error) {
         logger.error(`Failed to rename file ${basename(filePath)}:`, handleError(error, args.debug));
-        return 'error';
+        return { status: 'error', newFilePath: null };
     }
 }
 

@@ -18,6 +18,12 @@ const args: CLIArguments = yargs(hideBin(process.argv))
         type: 'boolean',
         default: false,
     })
+    .option('output', {
+        alias: 'o',
+        describe: 'Provide output file name',
+        type: 'string',
+        default: 'renamed.json',
+    })
     .help()
     .parseSync();
 

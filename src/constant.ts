@@ -1,0 +1,1 @@
+export const renamedInfo: Record<string, { suggested_name: string }> = {};
