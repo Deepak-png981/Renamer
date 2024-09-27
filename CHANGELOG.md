@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Deepak-png981/Renamer/compare/v1.0.3...v1.1.0) (2024-09-27)
+
+
+### Features
+
+* Introduced releasing JSON file as output from the Renamer-CLI ([a828caf](https://github.com/Deepak-png981/Renamer/commit/a828cafc9ee400d9c663564bb61da993aa329834))
+
 ## [1.0.3](https://github.com/Deepak-png981/Renamer/compare/v1.0.2...v1.0.3) (2024-09-22)
 
 
