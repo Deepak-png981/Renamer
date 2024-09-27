@@ -17,6 +17,10 @@ describe('Renamer E2E Tests', () => {
     if (fs.existsSync(testDir)) {
       fs.readdirSync(testDir).forEach(file => fs.unlinkSync(path.join(testDir, file)));
       fs.rmdirSync(testDir);
+      const filePath = path.resolve(__dirname, '../../../renamed.json');
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
     }
   });
 
