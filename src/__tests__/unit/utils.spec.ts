@@ -25,7 +25,7 @@ jest.mock('fs', () => ({
 }));
 
 describe('processFile', () => {
-  const mockArgs = { path: '/path/to/file.txt', debug: false }; 
+  const mockArgs = { path: '/path/to/file.txt', debug: false  , output: 'renamed.json' };
   const mockFilePath = '/path/to/file.txt';
   beforeEach(() => {
     jest.clearAllMocks();
@@ -37,7 +37,7 @@ describe('processFile', () => {
 
     expect(fs.promises.access).toHaveBeenCalledWith(mockFilePath);
     expect(logger.error).toHaveBeenCalledWith(`File does not exist at path: ${mockFilePath}`);
-    expect(result).toBe('skipped');
+    expect(result).toStrictEqual({"newFilePath": null, "status": "skipped"});
   });
   it('should skip if file is empty', async () => {
     (fs.promises.access as jest.Mock).mockResolvedValue(undefined);
@@ -46,7 +46,7 @@ describe('processFile', () => {
     const result = await processFile(mockFilePath, mockArgs);
     
     expect(logger.warn).toHaveBeenCalledWith(`File ${basename(mockFilePath)} is empty, skipping rename.`);
-    expect(result).toBe('skipped');
+    expect(result).toStrictEqual({"newFilePath": null, "status": "skipped"});
   });
   it('should skip renaming if file already has the correct name', async () => {
     const mockContent = 'Some file content';
@@ -59,7 +59,7 @@ describe('processFile', () => {
     const result = await processFile(mockFilePath, mockArgs);
 
     expect(logger.info).toHaveBeenCalledWith(`File ${basename(mockFilePath)} already has the correct name, skipping rename.`);
-    expect(result).toBe('skipped');
+    expect(result).toStrictEqual({"newFilePath": null, "status": "skipped"});
   });
 });
 
