@@ -6,7 +6,7 @@ description: "A comprehensive guide to understanding the role of artificial inte
 tags: ["AI", "Healthcare", "Machine Learning", "Technology"]
 ---
 
-# Introduction to AI in Healthcare
+# Introduction to AI in Healthcare sector
 
 Artificial Intelligence (AI) is revolutionizing many industries, and healthcare is no exception. From improving diagnostic accuracy to personalizing treatment plans, AI offers immense potential in transforming how healthcare is delivered.
 
