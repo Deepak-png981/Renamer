@@ -10,7 +10,8 @@
       {
         "releasedLabels": ["released"],
         "assets": [
-          {"path": "bin/renamer-win.exe", "label": "Renamer Windows x64"}
+          {"path": "bin/renamer-win.exe", "label": "Renamer Windows x64"},
+          {"path": "bin/renamer-linux", "label": "Renamer Linux x64"}
         ]
       }
     ]
