@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Deepak-png981/Renamer/compare/v1.1.0...v1.1.1) (2024-09-28)
+
+
+### Bug Fixes
+
+* Triggering Binary release ([586f3e8](https://github.com/Deepak-png981/Renamer/commit/586f3e8359186d46ebf8b1d4e806a73ab92051a8))
+
 # [1.1.0](https://github.com/Deepak-png981/Renamer/compare/v1.0.3...v1.1.0) (2024-09-27)
 
 
