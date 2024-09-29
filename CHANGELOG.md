@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/Deepak-png981/Renamer/compare/v1.1.1...v1.1.2) (2024-09-29)
+
+
+### Bug Fixes
+
+* check absolute path for JSON ([8a51c74](https://github.com/Deepak-png981/Renamer/commit/8a51c744a761e598782508dd49b637d7428e9ce1))
+
 ## [1.1.1](https://github.com/Deepak-png981/Renamer/compare/v1.1.0...v1.1.1) (2024-09-28)
 
 
