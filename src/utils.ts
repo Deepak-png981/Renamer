@@ -80,8 +80,8 @@ async function determineNewFileName(filePath: filePath, content: fileContent): P
     }
 }
 
-export const writeRenamedInfoToFile = async (renamedInfo: Record<string, { suggested_name: fileName }> , args: CLIArguments) => {
-    const filePath = path.join(process.cwd(), args.output);
+export const writeRenamedInfoToFile = async (renamedInfo: Record<string, { suggested_name: fileName }>, args: CLIArguments) => {
+    const filePath = path.isAbsolute(args.output) ? args.output : path.join(process.cwd(), args.output);  
     try {
         await fsPromises.writeFile(filePath, JSON.stringify(renamedInfo, null, 2), 'utf-8');
         logger.info(`Renamed info successfully saved to ${filePath}`);
@@ -89,6 +89,7 @@ export const writeRenamedInfoToFile = async (renamedInfo: Record<string, { sugge
         logger.error(`Failed to write renamed info to ${filePath}: ${error}`);
     }
 }
+
 
 async function renameFileIfNecessary(filePath: filePath, newFileName: fileName): Promise<{ status: 'renamed' | 'skipped', newFilePath: string | null }> {
 
