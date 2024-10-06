@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Deepak-png981/Renamer/compare/v1.1.2...v1.2.0) (2024-10-06)
+
+
+### Features
+
+* Introduced naming conventions. ([7839203](https://github.com/Deepak-png981/Renamer/commit/783920328b4faf627ddc4d66f95b8ecf4317e218))
+
 ## [1.1.2](https://github.com/Deepak-png981/Renamer/compare/v1.1.1...v1.1.2) (2024-09-29)
 
 
