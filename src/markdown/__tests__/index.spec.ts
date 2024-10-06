@@ -10,7 +10,7 @@ jest.mock('../../utils');
 describe('processMarkdownFile', () => {
     const mockFilePath = 'test-file.md';
     const mockContent = '---\ntitle: Test Title\n---\n# Heading 1\nThis is a test content.';
-
+    const mockArgs = { path: '/path/to/file.txt', debug: false  , output: 'renamed.json' , namingConvention: 'camelCase' };
     it('should generate a new file name based on markdown content', async () => {
         
         (markdownUtils.extractMarkdownMetadata as jest.Mock).mockReturnValue({ title: 'Test Title' });
@@ -22,7 +22,7 @@ describe('processMarkdownFile', () => {
 
         (sanitizeFileName as jest.Mock).mockReturnValue('generated-file-name');
 
-        const newFileName = await processMarkdownFile(mockFilePath, mockContent);
+        const newFileName = await processMarkdownFile(mockFilePath, mockContent , mockArgs);
 
         expect(markdownUtils.extractMarkdownMetadata).toHaveBeenCalledWith(mockContent, mockFilePath);
         expect(markdownUtils.extractMarkdownHeadings).toHaveBeenCalledWith(mockContent);
@@ -35,7 +35,7 @@ describe('processMarkdownFile', () => {
 
     it('should return null if file name generation fails', async () => {
         (openAIService.generateFileName as jest.Mock).mockResolvedValue(null);
-        const newFileName = await processMarkdownFile(mockFilePath, mockContent);
+        const newFileName = await processMarkdownFile(mockFilePath, mockContent , mockArgs);
 
         expect(newFileName).toBeNull();
     });

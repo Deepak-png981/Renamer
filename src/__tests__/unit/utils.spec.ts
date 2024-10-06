@@ -25,7 +25,7 @@ jest.mock('fs', () => ({
 }));
 
 describe('processFile', () => {
-  const mockArgs = { path: '/path/to/file.txt', debug: false  , output: 'renamed.json' };
+  const mockArgs = { path: '/path/to/file.txt', debug: false  , output: 'renamed.json' , namingConvention: 'camelCase' };
   const mockFilePath = '/path/to/file.txt';
   beforeEach(() => {
     jest.clearAllMocks();
