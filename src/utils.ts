@@ -67,13 +67,13 @@ async function readFileContent(filePath: filePath): Promise<fileContent | null> 
     }
 }
 
-async function determineNewFileName(filePath: filePath, content: fileContent): Promise<fileName | null> {
+async function determineNewFileName(filePath: filePath, content: fileContent , args: CLIArguments): Promise<fileName | null> {
     const fileExtension = extname(filePath);
 
     if (fileExtension === '.txt') {
-        return await processTextFile(filePath, content);
+        return await processTextFile(filePath, content , args);
     } else if (fileExtension === '.md') {
-        return await processMarkdownFile(filePath, content);
+        return await processMarkdownFile(filePath, content , args);
     } else {
         logger.info(`Skipping unsupported file type: ${basename(filePath)}`);
         return null;
@@ -96,8 +96,12 @@ async function renameFileIfNecessary(filePath: filePath, newFileName: fileName):
     const fileExtension = extname(filePath);
     
     const directoryPath = resolve(filePath, '..');
+
+    const newFileHasExtension = extname(newFileName) === fileExtension;
+
+    const finalFileName = newFileHasExtension ? newFileName : `${newFileName}${fileExtension}`;
     
-    const newFilePath = resolve(directoryPath, `${newFileName}${fileExtension}`);
+    const newFilePath = resolve(directoryPath, finalFileName);
     
     const resolvedFilePath = resolve(filePath);
 
@@ -126,7 +130,7 @@ export async function processFile(filePath: filePath, args: CLIArguments): Promi
         if (!content) return { status: 'skipped', newFilePath: null };
 
         
-        const newFileName = await determineNewFileName(filePath, content);
+        const newFileName = await determineNewFileName(filePath, content , args);
         if (!newFileName) return { status: 'skipped', newFilePath: null };
 
         

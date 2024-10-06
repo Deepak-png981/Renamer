@@ -47,7 +47,7 @@ export const renameFilesInDirectory = async (directoryPath: directoryPath, args:
         if (renamedCount > 0) {
             await writeRenamedInfoToFile(renamedInfo, args);
         }
-        logger.info(`Rename operation complete. ${renamedCount} files renamed, ${skippedCount} files skipped.`);
+        logger.info(`Rename operation complete. ${renamedCount} files renamed with the naming convention: "${args.namingConvention}", ${skippedCount} files skipped.`);
     } catch (error) {
         logger.error(`Error accessing directory: ${directoryPath}`, handleError(error, args.debug));
     }

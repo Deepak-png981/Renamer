@@ -40,4 +40,15 @@ describe('Renamer E2E Tests', () => {
     const files = fs.readdirSync(testDir);
     expect(files).not.toContain('test.md');
   });
+  test('renames files using camelCase naming convention', async () => {
+    const { stdout } = await execa('npx', ['ts-node', 'renamer.ts', '--path', testDir, '--nc', 'camelCase']);
+    expect(stdout).toContain('Starting file renamer...');
+    expect(stdout).toContain('camelCase');
+    expect(stdout).toContain('Rename operation complete');
+    const files = fs.readdirSync(testDir);
+    files.forEach(file => {
+      // Regex for camelCase format file names
+      expect(file).toMatch(/^[a-z][a-zA-Z]*\.[a-z]+$/); 
+    });
+  });
 });

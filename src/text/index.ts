@@ -3,10 +3,12 @@ import { generateFileName } from "../services/openAI.service";
 import logger from "../../logger";
 import { sanitizeFileName } from "../utils";
 import { fileContent, filePath } from "../types/renameFiles";
+import { CLIArguments } from "../types";
 
-export async function processTextFile(filePath: filePath, content: fileContent): Promise<string | null> {
+export async function processTextFile(filePath: filePath, content: fileContent, args: CLIArguments): Promise<string | null> {
     logger.debug(`Processing text file: ${filePath}`);
-    const suggestedFileName = await generateFileName(content);
+    const baseFileName = basename(filePath)
+    const suggestedFileName = await generateFileName(content , baseFileName , args);
     if (!suggestedFileName) {
         logger.error(`Failed to generate a new file name for ${basename(filePath)}`);
         return null;
