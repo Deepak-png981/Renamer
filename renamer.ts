@@ -24,6 +24,23 @@ const args: CLIArguments = yargs(hideBin(process.argv))
         type: 'string',
         default: 'renamed.json',
     })
+    .option('namingConvention', {
+        alias: 'nc',
+        describe: 'Choose a naming convention',
+        type: 'string',
+        choices: [
+            'camelCase', 
+            'PascalCase', 
+            'snake_case', 
+            'kebab-case', 
+            'UPPER_SNAKE_CASE', 
+            'Train-Case', 
+            'dot.notation', 
+            'HungarianNotation', 
+            'lisp-case'
+        ],
+        default: 'camelCase',
+    })
     .help()
     .parseSync();
 
