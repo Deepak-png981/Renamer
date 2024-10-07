@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/Deepak-png981/Renamer/compare/v1.2.1...v1.3.0) (2024-10-07)
+
+
+### Bug Fixes
+
+* utils.spec.ts ([db3ed51](https://github.com/Deepak-png981/Renamer/commit/db3ed51ff317ad2aa267faf577f4e95ceaa73306))
+
+
+### Features
+
+* Introduced Typescript file renaming ([035a0c2](https://github.com/Deepak-png981/Renamer/commit/035a0c2821b2d4a5992f8bb7bffa18108774eed7))
+
 ## [1.2.1](https://github.com/Deepak-png981/Renamer/compare/v1.2.0...v1.2.1) (2024-10-07)
 
 
