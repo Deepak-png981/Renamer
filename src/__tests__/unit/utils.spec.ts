@@ -23,6 +23,9 @@ jest.mock('fs', () => ({
   },
   existsSync: jest.fn(),
 }));
+jest.mock('@typescript-eslint/typescript-estree', () => ({
+  parse: jest.fn(),
+}));
 
 describe('processFile', () => {
   const mockArgs = { path: '/path/to/file.txt', debug: false  , output: 'renamed.json' , namingConvention: 'camelCase' };
