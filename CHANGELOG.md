@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/Deepak-png981/Renamer/compare/v1.2.0...v1.2.1) (2024-10-07)
+
+
+### Bug Fixes
+
+* Implemented max file name length ([d0e7da6](https://github.com/Deepak-png981/Renamer/commit/d0e7da64bb8d6873eb7f95d295cb41a78860863d))
+
 # [1.2.0](https://github.com/Deepak-png981/Renamer/compare/v1.1.2...v1.2.0) (2024-10-06)
 
 
