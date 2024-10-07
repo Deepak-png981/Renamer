@@ -8,13 +8,14 @@
     "rename": "npx ts-node renamer.ts",
     "clean": "rm -rf ./lib/ ./dist/",
     "test": "jest",
-    "build": "tsc",  
+    "build": "tsc",
     "package": "pkg . --targets node18-linux-x64,node18-win-x64 --output ./bin/renamer"
   },
   "keywords": [],
   "author": "Deepak Joshi",
   "license": "ISC",
   "dependencies": {
+    "@typescript-eslint/typescript-estree": "^8.8.0",
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
     "js-yaml": "^4.1.0",
