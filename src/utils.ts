@@ -6,6 +6,7 @@ import { handleError } from "./error/errorHandler";
 import fs, { promises as fsPromises } from 'fs';
 import { processMarkdownFile } from "./markdown";
 import { processTextFile } from "./text";
+import { processTypeScriptFile } from "./code/typeScript/processTypeScriptFile";
 
 const { access, readFile, rename } = fsPromises;
 
@@ -69,11 +70,13 @@ async function readFileContent(filePath: filePath): Promise<fileContent | null> 
 
 async function determineNewFileName(filePath: filePath, content: fileContent , args: CLIArguments): Promise<fileName | null> {
     const fileExtension = extname(filePath);
-
     if (fileExtension === '.txt') {
         return await processTextFile(filePath, content , args);
     } else if (fileExtension === '.md') {
         return await processMarkdownFile(filePath, content , args);
+    }
+    if (fileExtension === '.ts') {
+        return await processTypeScriptFile(filePath, content , args);
     } else {
         logger.info(`Skipping unsupported file type: ${basename(filePath)}`);
         return null;
@@ -116,7 +119,7 @@ async function renameFileIfNecessary(filePath: filePath, newFileName: fileName):
     }
 
     await rename(resolvedFilePath, newFilePath);
-    logger.info(`Renamed ${basename(resolvedFilePath)} to ${newFileName}${fileExtension}`);
+    logger.info(`Renamed ${basename(resolvedFilePath)} to ${newFileName}`);
     return { status: 'renamed', newFilePath };;
 }
 

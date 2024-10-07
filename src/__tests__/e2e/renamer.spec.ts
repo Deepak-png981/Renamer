@@ -10,6 +10,7 @@ describe('Renamer E2E Tests', () => {
       fs.mkdirSync(testDir);
       fs.writeFileSync(path.join(testDir, 'test.txt'), 'Sample content');
       fs.writeFileSync(path.join(testDir, 'test.md'), '---\ntitle: Test Title\nauthor: John Doe\n---\n# Heading 1\n## Heading 2\nThis is a test content about Node.js and Markdown.');
+      fs.writeFileSync(path.join(testDir, 'test.ts'), 'export const sum = (a: number, b: number): number => { return a + b; };');
     }
   });
 
@@ -51,4 +52,13 @@ describe('Renamer E2E Tests', () => {
       expect(file).toMatch(/^[a-z][a-zA-Z]*\.[a-z]+$/); 
     });
   });
+  test('renames TypeScript files as expected', async () => {
+    const tsFilePath = path.join(testDir, 'test.ts');
+    const { stdout } = await execa('npx', ['ts-node', 'renamer.ts', '--path', tsFilePath, '--debug']);
+    expect(stdout).toContain('Starting file renamer...');
+    expect(stdout).toContain('Renamed test.ts to');
+    const files = fs.readdirSync(testDir);
+    expect(files).not.toContain('test.ts');
+  });
+
 });
