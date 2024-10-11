@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Deepak-png981/Renamer/compare/v1.4.0...v1.5.0) (2024-10-11)
+
+
+### Features
+
+* Introduced jsx renaming to the CLI ([35bf66d](https://github.com/Deepak-png981/Renamer/commit/35bf66dafbaec8408255e589d53a47b2dae150cd))
+
 # [1.4.0](https://github.com/Deepak-png981/Renamer/compare/v1.3.0...v1.4.0) (2024-10-11)
 
 
