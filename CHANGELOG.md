@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/Deepak-png981/Renamer/compare/v1.5.0...v1.5.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* Introduced TSX file renaming. ([4290d07](https://github.com/Deepak-png981/Renamer/commit/4290d070ce3de0f43a596e3d624e233f6606a06a))
+
 # [1.5.0](https://github.com/Deepak-png981/Renamer/compare/v1.4.0...v1.5.0) (2024-10-11)
 
 
