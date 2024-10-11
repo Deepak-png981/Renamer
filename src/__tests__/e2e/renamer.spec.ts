@@ -11,6 +11,7 @@ describe('Renamer E2E Tests', () => {
       fs.writeFileSync(path.join(testDir, 'test.txt'), 'Sample content');
       fs.writeFileSync(path.join(testDir, 'test.md'), '---\ntitle: Test Title\nauthor: John Doe\n---\n# Heading 1\n## Heading 2\nThis is a test content about Node.js and Markdown.');
       fs.writeFileSync(path.join(testDir, 'test.ts'), 'export const sum = (a: number, b: number): number => { return a + b; };');
+      fs.writeFileSync(path.join(testDir, 'test.jsx'), 'import React from \'react\';\n\nconst Greeting = () => {\n  const name = "John";\n  const isMorning = true;\n\n  return (\n    <div>\n      <h1>Hello, {name}!</h1>\n      <p>Good {isMorning ? \'morning\' : \'evening\'}!</p>\n      <button onClick={() => alert(\'Welcome to React!\')}>Click Me</button>\n    </div>\n  );\n};\n\nexport default Greeting;');
     }
   });
 
@@ -59,6 +60,15 @@ describe('Renamer E2E Tests', () => {
     expect(stdout).toContain('Renamed test.ts to');
     const files = fs.readdirSync(testDir);
     expect(files).not.toContain('test.ts');
+  });
+  
+  test('renames JSX files as expected', async () => {
+    const jsxFilePath = path.join(testDir, 'test.jsx');
+    const { stdout } = await execa('npx', ['ts-node', 'renamer.ts', '--path', jsxFilePath, '--debug']);
+    expect(stdout).toContain('Starting file renamer...');
+    expect(stdout).toContain('Renamed test.jsx to');
+    const files = fs.readdirSync(testDir);
+    expect(files).not.toContain('test.jsx');
   });
 
 });
