@@ -7,6 +7,7 @@ import fs, { promises as fsPromises } from 'fs';
 import { processMarkdownFile } from "./markdown";
 import { processTextFile } from "./text";
 import { processJavaScriptFile } from "./code/javaScript/processJavaScriptFile";
+import { processYamlFile } from "./code/YAML/processYamlFile";
 
 const { access, readFile, rename } = fsPromises;
 
@@ -77,7 +78,9 @@ async function determineNewFileName(filePath: filePath, content: fileContent , a
     }
     if (fileExtension === '.ts' || fileExtension === '.js' || fileExtension === '.jsx' || fileExtension === '.tsx') {
         return await processJavaScriptFile(filePath, content , args);
-    } else {
+    } else if(fileExtension === '.yml' || fileExtension === '.yaml') {
+        return await processYamlFile(filePath, content , args);
+    }else {
         logger.info(`Skipping unsupported file type: ${basename(filePath)}`);
         return null;
     }
