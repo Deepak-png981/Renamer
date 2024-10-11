@@ -11,7 +11,7 @@ export const processJavaScriptFile = async (filePath: filePath, content: fileCon
             console.warn(`File ${filePath} is empty, skipping renaming.`);
             return null;  
         }
-        const parsedAST = parse(content, { loc: true });
+        const parsedAST = parse(content, { loc: true , jsx: true });
 
         const functions: string[] = [];
         const classes: string[] = [];

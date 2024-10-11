@@ -75,7 +75,7 @@ async function determineNewFileName(filePath: filePath, content: fileContent , a
     } else if (fileExtension === '.md') {
         return await processMarkdownFile(filePath, content , args);
     }
-    if (fileExtension === '.ts' || fileExtension === '.js') {
+    if (fileExtension === '.ts' || fileExtension === '.js' || fileExtension === '.jsx') {
         return await processJavaScriptFile(filePath, content , args);
     } else {
         logger.info(`Skipping unsupported file type: ${basename(filePath)}`);
