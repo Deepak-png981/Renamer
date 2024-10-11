@@ -3,8 +3,9 @@ import { CLIArguments } from "../../types";
 import { generateFileName } from '../../services/openAI.service';
 import { basename } from 'path';
 import { sanitizeFileName } from '../../utils';
+import { fileContent, filePath } from '../../types/renameFiles';
 
-export const processTypeScriptFile = async (filePath: string, content: string, args: CLIArguments): Promise<string | null> => {
+export const processJavaScriptFile = async (filePath: filePath, content: fileContent, args: CLIArguments): Promise<string | null> => {
     try {
         if (!content || content.trim().length === 0) {
             console.warn(`File ${filePath} is empty, skipping renaming.`);
@@ -53,7 +54,7 @@ export const processTypeScriptFile = async (filePath: string, content: string, a
         });
 
         const prompt = `
-      The file contains the following TypeScript elements:
+      The file contains the following JavaScript elements:
       - Functions: ${functions.join(", ")}
       - Classes: ${classes.join(", ")}
       - Constants: ${constants.join(", ")}
