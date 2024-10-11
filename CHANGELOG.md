@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/Deepak-png981/Renamer/compare/v1.5.1...v1.6.0) (2024-10-11)
+
+
+### Bug Fixes
+
+* added test.yml ([0293acb](https://github.com/Deepak-png981/Renamer/commit/0293acbc7e90b588d4971efbb2ef20ccdd46340d))
+
+
+### Features
+
+* Introduced Yaml renaming ([5f932e1](https://github.com/Deepak-png981/Renamer/commit/5f932e197eee520b5b4832b67a36a10dba50c8ae))
+
 ## [1.5.1](https://github.com/Deepak-png981/Renamer/compare/v1.5.0...v1.5.1) (2024-10-11)
 
 
