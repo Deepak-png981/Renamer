@@ -6,7 +6,7 @@ import { handleError } from "./error/errorHandler";
 import fs, { promises as fsPromises } from 'fs';
 import { processMarkdownFile } from "./markdown";
 import { processTextFile } from "./text";
-import { processTypeScriptFile } from "./code/typeScript/processTypeScriptFile";
+import { processJavaScriptFile } from "./code/javaScript/processJavaScriptFile";
 
 const { access, readFile, rename } = fsPromises;
 
@@ -75,8 +75,8 @@ async function determineNewFileName(filePath: filePath, content: fileContent , a
     } else if (fileExtension === '.md') {
         return await processMarkdownFile(filePath, content , args);
     }
-    if (fileExtension === '.ts') {
-        return await processTypeScriptFile(filePath, content , args);
+    if (fileExtension === '.ts' || fileExtension === '.js') {
+        return await processJavaScriptFile(filePath, content , args);
     } else {
         logger.info(`Skipping unsupported file type: ${basename(filePath)}`);
         return null;

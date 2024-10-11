@@ -1,4 +1,4 @@
-import { processTypeScriptFile } from '../../code/typeScript/processTypeScriptFile';
+import { processJavaScriptFile } from '../../code/javaScript/processJavaScriptFile';
 import { generateFileName } from '../../services/openAI.service';
 import { CLIArguments } from '../../types';
 import { sanitizeFileName } from '../../utils';
@@ -37,7 +37,7 @@ describe('processTypeScriptFile', () => {
     });
 
     it('should return null for empty file content', async () => {
-        const result = await processTypeScriptFile(mockFilePath, '', mockArgs);
+        const result = await processJavaScriptFile(mockFilePath, '', mockArgs);
 
         expect(result).toBeNull();
         expect(console.warn).toHaveBeenCalledWith(`File ${mockFilePath} is empty, skipping renaming.`);
@@ -55,7 +55,7 @@ describe('processTypeScriptFile', () => {
         (generateFileName as jest.Mock).mockResolvedValue(mockSuggestedFileName);
         (sanitizeFileName as jest.Mock).mockReturnValue(mockSuggestedFileName);
 
-        const result = await processTypeScriptFile(mockFilePath, mockContent, mockArgs);
+        const result = await processJavaScriptFile(mockFilePath, mockContent, mockArgs);
 
         expect(path.basename).toHaveBeenCalledWith(mockFilePath);
         expect(generateFileName).toHaveBeenCalledWith(expect.any(String), 'test.ts', mockArgs);
@@ -67,7 +67,7 @@ describe('processTypeScriptFile', () => {
         const mockError = new Error('Parsing error');
         (generateFileName as jest.Mock).mockRejectedValue(mockError);
 
-        const result = await processTypeScriptFile(mockFilePath, 'some invalid content', mockArgs);
+        const result = await processJavaScriptFile(mockFilePath, 'some invalid content', mockArgs);
 
         expect(console.error).toHaveBeenCalledWith(expect.stringContaining('Error processing TypeScript file:'));
         expect(result).toBeNull();
