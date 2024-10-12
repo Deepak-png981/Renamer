@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/Deepak-png981/Renamer/compare/v1.6.3...v1.6.4) (2024-10-12)
+
+
+### Bug Fixes
+
+* Improved prompt for returning the original base name if the LLM donot have more context around the file ([6475316](https://github.com/Deepak-png981/Renamer/commit/64753169383013766556e9022e77fcac2112834c))
+
 ## [1.6.3](https://github.com/Deepak-png981/Renamer/compare/v1.6.2...v1.6.3) (2024-10-12)
 
 
