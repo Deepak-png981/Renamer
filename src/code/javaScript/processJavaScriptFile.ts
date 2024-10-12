@@ -9,9 +9,9 @@ export const processJavaScriptFile = async (filePath: filePath, content: fileCon
     try {
         if (!content || content.trim().length === 0) {
             console.warn(`File ${filePath} is empty, skipping renaming.`);
-            return null;  
+            return null;
         }
-        const parsedAST = parse(content, { loc: true , jsx: true });
+        const parsedAST = parse(content, { loc: true, jsx: true });
 
         const functions: string[] = [];
         const classes: string[] = [];
@@ -52,16 +52,15 @@ export const processJavaScriptFile = async (filePath: filePath, content: fileCon
                 });
             }
         });
-
+        const baseFileName = basename(filePath);
         const prompt = `
       The file contains the following JavaScript elements:
       - Functions: ${functions.join(", ")}
       - Classes: ${classes.join(", ")}
       - Constants: ${constants.join(", ")}
-
+      If you donot have the context please response with the original file name only that is "${baseFileName}".
       Based on these elements, suggest a concise, descriptive file name in "${args.namingConvention}" format.
     `;
-        const baseFileName = basename(filePath);
         const suggestedTsFileName = await generateFileName(prompt, baseFileName, args);
         if (!suggestedTsFileName) {
             return null;
