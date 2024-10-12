@@ -1,3 +1,11 @@
+## [1.6.2](https://github.com/Deepak-png981/Renamer/compare/v1.6.1...v1.6.2) (2024-10-12)
+
+
+### Bug Fixes
+
+* path bug ([0491bd0](https://github.com/Deepak-png981/Renamer/commit/0491bd02251548187200da296b69594c5b1f803e))
+* test case ([beba493](https://github.com/Deepak-png981/Renamer/commit/beba49319992772b45228c16c4b9cd5bfb49e79d))
+
 ## [1.6.1](https://github.com/Deepak-png981/Renamer/compare/v1.6.0...v1.6.1) (2024-10-12)
 
 
