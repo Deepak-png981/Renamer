@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/Deepak-png981/Renamer/compare/v1.6.2...v1.6.3) (2024-10-12)
+
+
+### Bug Fixes
+
+* triggering release ([9a6cb12](https://github.com/Deepak-png981/Renamer/commit/9a6cb127b994c482cdb83a2fda0158506dfbc80b))
+
 ## [1.6.2](https://github.com/Deepak-png981/Renamer/compare/v1.6.1...v1.6.2) (2024-10-12)
 
 
