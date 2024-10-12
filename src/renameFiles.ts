@@ -49,6 +49,6 @@ export const renameFilesInDirectory = async (directoryPath: directoryPath, args:
         }
         logger.info(`Rename operation complete. ${renamedCount} files renamed with the naming convention: "${args.namingConvention}", ${skippedCount} files skipped.`);
     } catch (error) {
-        logger.error(`Error accessing directory: ${directoryPath}`, handleError(error, args.debug));
+        logger.error(`Error accessing content directory: ${directoryPath}`, handleError(error, args.debug));
     }
 };
