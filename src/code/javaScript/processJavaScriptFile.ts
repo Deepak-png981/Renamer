@@ -55,11 +55,11 @@ export const processJavaScriptFile = async (filePath: filePath, content: fileCon
 
         const prompt = `
       The file contains the following JavaScript elements:
-      - Functions: ${functions.join(", ")}
-      - Classes: ${classes.join(", ")}
-      - Constants: ${constants.join(", ")}
+      - Functions: ${functions.join(", ") || "No functions"}
+      - Classes: ${classes.join(", ") || "No classes"}
+      - Constants: ${constants.join(", ") || "No constants"}
 
-      Based on these elements, suggest a concise, descriptive file name in "${args.namingConvention}" format.
+      Based on these elements if they are present, suggest a concise, descriptive file name in "${args.namingConvention}" format.
     `;
         const baseFileName = basename(filePath);
         const suggestedTsFileName = await generateFileName(prompt, baseFileName, args);
