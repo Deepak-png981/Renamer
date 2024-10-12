@@ -34,7 +34,7 @@ export const renameFilesInDirectory = async (directoryPath: directoryPath, args:
             files.map(async (file) => {
                 const filePath = resolve(directoryPath, file);
                 const result = await processFile(filePath, args);
-                if (result.status === 'renamed' && result.newFilePath) {
+                if (result.newFilePath) {
                     renamedInfo[basename(filePath)] = { suggested_name: basename(result.newFilePath) };
                 }
                 return result;
