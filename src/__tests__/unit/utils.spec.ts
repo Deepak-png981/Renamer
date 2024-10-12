@@ -2,7 +2,8 @@ import { httpRequest, sanitizeFileName } from '../../utils';
 import logger from '../../../logger';
 import { processFile } from '../../utils';
 import fs from 'fs';
-import { basename } from 'path';
+import path, { basename } from 'path';
+
 import { processTextFile } from '../../text';
 global.fetch = jest.fn();
 
@@ -60,9 +61,10 @@ describe('processFile', () => {
     (processTextFile as jest.Mock).mockResolvedValue(mockNewFileName);
     
     const result = await processFile(mockFilePath, mockArgs);
-
-    expect(logger.info).toHaveBeenCalledWith(`File ${basename(mockFilePath)} already has the correct name, skipping rename.`);
-    expect(result).toStrictEqual({"newFilePath": "E:\\path\\to\\file.txt", "status": "skipped"});
+    const expectedPath = path.join('E:', 'path', 'to', 'file.txt');
+  
+    expect(logger.info).toHaveBeenCalledWith(`File ${path.basename(mockFilePath)} already has the correct name, skipping rename.`);
+    expect(result).toStrictEqual({"newFilePath": expectedPath, "status": "skipped"});
   });
 });
 
