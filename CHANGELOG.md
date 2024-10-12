@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/Deepak-png981/Renamer/compare/v1.6.0...v1.6.1) (2024-10-12)
+
+
+### Bug Fixes
+
+* Add file name in output file even if it has the correct name ([2d7022c](https://github.com/Deepak-png981/Renamer/commit/2d7022c8bafdfba1ee1bc8db3f2d143cd71f74aa))
+
 # [1.6.0](https://github.com/Deepak-png981/Renamer/compare/v1.5.1...v1.6.0) (2024-10-11)
 
 
