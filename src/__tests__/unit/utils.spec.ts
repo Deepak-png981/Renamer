@@ -51,7 +51,7 @@ describe('processFile', () => {
     expect(logger.warn).toHaveBeenCalledWith(`File ${basename(mockFilePath)} is empty, skipping rename.`);
     expect(result).toStrictEqual({"newFilePath": null, "status": "skipped"});
   });
-  it('should skip renaming if file already has the correct name', async () => {
+  it('should add the file name in output file even if it has correct name', async () => {
     const mockContent = 'Some file content';
     const mockNewFileName = 'file';
     
@@ -62,7 +62,7 @@ describe('processFile', () => {
     const result = await processFile(mockFilePath, mockArgs);
 
     expect(logger.info).toHaveBeenCalledWith(`File ${basename(mockFilePath)} already has the correct name, skipping rename.`);
-    expect(result).toStrictEqual({"newFilePath": null, "status": "skipped"});
+    expect(result).toStrictEqual({"newFilePath": "E:\\path\\to\\file.txt", "status": "skipped"});
   });
 });
 

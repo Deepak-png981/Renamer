@@ -13,7 +13,7 @@ export const renameSingleFile = async (filePath: filePath, args: CLIArguments) =
     if (result.status === 'error') {
         logger.error(`Failed to rename file ${basename(filePath)}`);
     }
-    if (result.status === 'renamed' && result.newFilePath) {
+    if (result.newFilePath) {
         renamedInfo[basename(filePath)] = { suggested_name: basename(result.newFilePath) };
     }
     if (Object.keys(renamedInfo).length > 0) {

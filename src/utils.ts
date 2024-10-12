@@ -113,7 +113,7 @@ async function renameFileIfNecessary(filePath: filePath, newFileName: fileName):
 
     if (resolvedFilePath === newFilePath) {
         logger.info(`File ${basename(resolvedFilePath)} already has the correct name, skipping rename.`);
-        return { status: 'skipped', newFilePath: null };
+        return { status: 'skipped', newFilePath: newFilePath };
     }
 
     if (fs.existsSync(newFilePath)) {
