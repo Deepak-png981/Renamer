@@ -1,9 +1,9 @@
-import path, { basename, extname, resolve } from "path";
+import path, { basename, extname } from "path";
 import logger from "../logger";
 import { fileContent, fileName, filePath } from "./types/renameFiles";
 import { CLIArguments } from "./types";
 import { handleError } from "./error/errorHandler";
-import fs, { promises as fsPromises } from 'fs';
+import { promises as fsPromises } from 'fs';
 import { processMarkdownFile } from "./markdown";
 import { processTextFile } from "./text";
 import { processJavaScriptFile } from "./code/javaScript/processJavaScriptFile";
