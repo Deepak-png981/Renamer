@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/Deepak-png981/Renamer/compare/v1.7.0...v1.7.1) (2024-10-20)
+
+
+### Bug Fixes
+
+* updated the env script for ci.yml ([cd8c515](https://github.com/Deepak-png981/Renamer/commit/cd8c515276a8334cb138cd5b15a633de38d1746b))
+
 # [1.7.0](https://github.com/Deepak-png981/Renamer/compare/v1.6.4...v1.7.0) (2024-10-20)
 
 
