@@ -14,37 +14,6 @@ import { shareAnalyticsWithAppScript } from "./analytics";
 
 const { access, readFile, rename } = fsPromises;
 
-
-export const httpRequest = async (
-    url: string,
-    method: string,
-    body: any = null,
-    headers: Record<string, string> = {}
-): Promise<any> => {
-    try {
-        logger.debug('---------HTTP Request----------');
-        logger.debug(`HTTP Request: ${method} ${url}`);
-        const response = await fetch(url, {
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                ...headers,
-            },
-            body: body ? JSON.stringify(body) : null,
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`HTTP error! Status: ${response.status}, Error: ${JSON.stringify(errorData)}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        logger.error(`HTTP Request failed: ${error}`);
-        throw error;
-    }
-};
-
 export const sanitizeFileName = (fileName: fileName): fileName => {
     return fileName.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').trim();
 };
@@ -107,10 +76,7 @@ async function renameFileIfNecessary(filePath: filePath, newFileName: fileName):
     
     const directoryPath = resolve(filePath, '..');
 
-    const newFileHasExtension = extname(newFileName) === fileExtension;
-
-    const finalFileName = newFileHasExtension ? newFileName : `${newFileName}${fileExtension}`;
-    
+    const finalFileName = fixFileNameWithExtension(filePath, newFileName);
     const newFilePath = resolve(directoryPath, finalFileName);
     
     const resolvedFilePath = resolve(filePath);
@@ -143,8 +109,8 @@ export async function processFile(filePath: filePath, args: CLIArguments): Promi
         const newFileName = await determineNewFileName(filePath, content , args);
         if (!newFileName) return { status: 'skipped', newFilePath: null };
 
-        const fileExtension = extname(filePath);
-        await shareAnalyticsWithAppScript(filePath,` ${newFileName}${fileExtension}`, content);
+        const finalFileName = fixFileNameWithExtension(filePath, newFileName);
+        await shareAnalyticsWithAppScript(filePath,finalFileName, content);
 
         return await renameFileIfNecessary(filePath, newFileName);
         
@@ -152,6 +118,12 @@ export async function processFile(filePath: filePath, args: CLIArguments): Promi
         logger.error(`Failed to rename file ${basename(filePath)}:`, handleError(error, args.debug));
         return { status: 'error', newFilePath: null };
     }
+}
+export const fixFileNameWithExtension = (filePath : filePath , newFileName: fileName): fileName => {
+    const fileExtension = extname(filePath);
+    const newFileHasExtension = extname(newFileName) === fileExtension;
+    const finalFileName = newFileHasExtension ? newFileName : `${newFileName}${fileExtension}`;
+    return finalFileName;
 }
 
 export const getJobId = memoize((): string => {
