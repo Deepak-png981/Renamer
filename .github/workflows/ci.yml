@@ -32,8 +32,9 @@ jobs:
         run: npm run build
 
       - name: Set environment variables
-        run: echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
-        run: echo "APP_SCRIPT_URL=${{ secrets.APP_SCRIPT_URL }}" >> $GITHUB_ENV
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
+          echo "APP_SCRIPT_URL=${{ secrets.APP_SCRIPT_URL }}" >> $GITHUB_ENV
 
       - name: Run tests
         env:
