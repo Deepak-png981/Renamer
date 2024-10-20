@@ -1,6 +1,7 @@
 import { CLIArguments } from "../types";
 import { fileName } from "../types/renameFiles";
-import { cleanFileNameExtension, httpRequest } from "../utils";
+import { cleanFileNameExtension } from "../utils";
+import { httpRequest } from "./http.service";
 import dotenv from 'dotenv';
 dotenv.config();
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;

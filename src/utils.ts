@@ -1,77 +1,19 @@
-import path, { basename, extname, resolve } from "path";
+import path, { basename, extname } from "path";
 import logger from "../logger";
 import { fileContent, fileName, filePath } from "./types/renameFiles";
 import { CLIArguments } from "./types";
 import { handleError } from "./error/errorHandler";
-import fs, { promises as fsPromises } from 'fs';
+import { promises as fsPromises } from 'fs';
 import { processMarkdownFile } from "./markdown";
 import { processTextFile } from "./text";
 import { processJavaScriptFile } from "./code/javaScript/processJavaScriptFile";
 import { processYamlFile } from "./code/YAML/processYamlFile";
-import { randomUUID } from 'crypto';
-import memoize from 'lodash/memoize';
 import { shareAnalyticsWithAppScript } from "./analytics";
-
-const { access, readFile, rename } = fsPromises;
-
-
-export const httpRequest = async (
-    url: string,
-    method: string,
-    body: any = null,
-    headers: Record<string, string> = {}
-): Promise<any> => {
-    try {
-        logger.debug('---------HTTP Request----------');
-        logger.debug(`HTTP Request: ${method} ${url}`);
-        const response = await fetch(url, {
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                ...headers,
-            },
-            body: body ? JSON.stringify(body) : null,
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`HTTP error! Status: ${response.status}, Error: ${JSON.stringify(errorData)}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        logger.error(`HTTP Request failed: ${error}`);
-        throw error;
-    }
-};
+import { checkFileExists, readFileContent, renameFileIfNecessary } from "./services/file.service";
 
 export const sanitizeFileName = (fileName: fileName): fileName => {
     return fileName.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').trim();
 };
-
-async function checkFileExists(filePath: filePath): Promise<boolean> {
-    try {
-        await access(filePath);
-        return true;
-    } catch {
-        logger.error(`File does not exist at path: ${filePath}`);
-        return false;
-    }
-}
-
-async function readFileContent(filePath: filePath): Promise<fileContent | null> {
-    try {
-        const content = await readFile(filePath, 'utf-8');
-        if (!content) {
-            logger.warn(`File ${basename(filePath)} is empty, skipping rename.`); logger
-            return null;
-        }
-        return content;
-    } catch (error) {
-        logger.error(`Failed to read file ${basename(filePath)}: ${error}`);
-        return null;
-    }
-}
 
 async function determineNewFileName(filePath: filePath, content: fileContent , args: CLIArguments): Promise<fileName | null> {
     const fileExtension = extname(filePath);
@@ -100,36 +42,6 @@ export const writeRenamedInfoToFile = async (renamedInfo: Record<string, { sugge
     }
 }
 
-
-async function renameFileIfNecessary(filePath: filePath, newFileName: fileName): Promise<{ status: 'renamed' | 'skipped', newFilePath: string | null }> {
-
-    const fileExtension = extname(filePath);
-    
-    const directoryPath = resolve(filePath, '..');
-
-    const newFileHasExtension = extname(newFileName) === fileExtension;
-
-    const finalFileName = newFileHasExtension ? newFileName : `${newFileName}${fileExtension}`;
-    
-    const newFilePath = resolve(directoryPath, finalFileName);
-    
-    const resolvedFilePath = resolve(filePath);
-
-    if (resolvedFilePath === newFilePath) {
-        logger.info(`File ${basename(resolvedFilePath)} already has the correct name, skipping rename.`);
-        return { status: 'skipped', newFilePath: newFilePath };
-    }
-
-    if (fs.existsSync(newFilePath)) {
-        logger.error(`A file named ${newFileName}${fileExtension} already exists. Skipping rename for ${basename(resolvedFilePath)}.`);
-        return { status: 'skipped', newFilePath: null };
-    }
-
-    await rename(resolvedFilePath, newFilePath);
-    logger.info(`Renamed ${basename(resolvedFilePath)} to ${finalFileName}`);
-    return { status: 'renamed', newFilePath };;
-}
-
 export async function processFile(filePath: filePath, args: CLIArguments): Promise<{ status: 'renamed' | 'skipped' | 'error', newFilePath: string | null }> {
     try {
         
@@ -143,8 +55,8 @@ export async function processFile(filePath: filePath, args: CLIArguments): Promi
         const newFileName = await determineNewFileName(filePath, content , args);
         if (!newFileName) return { status: 'skipped', newFilePath: null };
 
-        const fileExtension = extname(filePath);
-        await shareAnalyticsWithAppScript(filePath,` ${newFileName}${fileExtension}`, content);
+        const finalFileName = fixFileNameWithExtension(filePath, newFileName);
+        await shareAnalyticsWithAppScript(filePath,finalFileName, content);
 
         return await renameFileIfNecessary(filePath, newFileName);
         
@@ -153,14 +65,12 @@ export async function processFile(filePath: filePath, args: CLIArguments): Promi
         return { status: 'error', newFilePath: null };
     }
 }
-
-export const getJobId = memoize((): string => {
-    return process.env['EXTERNAL_JOB_ID'] || randomUUID();
-});
-
-export const getAppScriptUrl = memoize((): string => {
-    return process.env['APP_SCRIPT_URL'] || '' ;
-});
+export const fixFileNameWithExtension = (filePath : filePath , newFileName: fileName): fileName => {
+    const fileExtension = extname(filePath);
+    const newFileHasExtension = extname(newFileName) === fileExtension;
+    const finalFileName = newFileHasExtension ? newFileName : `${newFileName}${fileExtension}`;
+    return finalFileName;
+}
 
 export const cleanFileNameExtension = (fileName: fileName): fileName => {
     const extensionRegex = /\.[a-zA-Z0-9]+$/;

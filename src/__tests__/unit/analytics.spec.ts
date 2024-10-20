@@ -1,12 +1,15 @@
 import { basename } from 'path';
 import { shareAnalyticsWithAppScript } from '../../analytics';
-import { getAppScriptUrl, getJobId, httpRequest } from '../../utils';
+import { getAppScriptUrl, getJobId } from '../../env';
+import { httpRequest } from '../../services/http.service';
 import logger from '../../../logger';
 import { filePath, fileName, fileContent } from '../../types/renameFiles';
 
-jest.mock('../../utils', () => ({
+jest.mock('../../env', () => ({
     getAppScriptUrl: jest.fn(),
     getJobId: jest.fn(),
+}));
+jest.mock('../../services/http.service', () => ({
     httpRequest: jest.fn(),
 }));
 
