@@ -8,6 +8,9 @@ import { processMarkdownFile } from "./markdown";
 import { processTextFile } from "./text";
 import { processJavaScriptFile } from "./code/javaScript/processJavaScriptFile";
 import { processYamlFile } from "./code/YAML/processYamlFile";
+import { randomUUID } from 'crypto';
+import memoize from 'lodash/memoize';
+import { shareAnalyticsWithAppScript } from "./analytics";
 
 const { access, readFile, rename } = fsPromises;
 
@@ -19,6 +22,7 @@ export const httpRequest = async (
     headers: Record<string, string> = {}
 ): Promise<any> => {
     try {
+        logger.debug('---------HTTP Request----------');
         logger.debug(`HTTP Request: ${method} ${url}`);
         const response = await fetch(url, {
             method,
@@ -122,7 +126,7 @@ async function renameFileIfNecessary(filePath: filePath, newFileName: fileName):
     }
 
     await rename(resolvedFilePath, newFilePath);
-    logger.info(`Renamed ${basename(resolvedFilePath)} to ${newFileName}`);
+    logger.info(`Renamed ${basename(resolvedFilePath)} to ${finalFileName}`);
     return { status: 'renamed', newFilePath };;
 }
 
@@ -139,7 +143,9 @@ export async function processFile(filePath: filePath, args: CLIArguments): Promi
         const newFileName = await determineNewFileName(filePath, content , args);
         if (!newFileName) return { status: 'skipped', newFilePath: null };
 
-        
+        const fileExtension = extname(filePath);
+        await shareAnalyticsWithAppScript(filePath,` ${newFileName}${fileExtension}`, content);
+
         return await renameFileIfNecessary(filePath, newFileName);
         
     } catch (error) {
@@ -147,6 +153,14 @@ export async function processFile(filePath: filePath, args: CLIArguments): Promi
         return { status: 'error', newFilePath: null };
     }
 }
+
+export const getJobId = memoize((): string => {
+    return process.env['EXTERNAL_JOB_ID'] || randomUUID();
+});
+
+export const getAppScriptUrl = memoize((): string => {
+    return process.env['APP_SCRIPT_URL'] || '' ;
+});
 
 export const cleanFileNameExtension = (fileName: fileName): fileName => {
     const extensionRegex = /\.[a-zA-Z0-9]+$/;
