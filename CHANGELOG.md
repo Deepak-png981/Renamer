@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/Deepak-png981/Renamer/compare/v1.6.4...v1.7.0) (2024-10-20)
+
+
+### Features
+
+* Introduced App Script Analytics ([d51b57e](https://github.com/Deepak-png981/Renamer/commit/d51b57e62ba8fa71dc3225b551a127462e7e1db4))
+
 ## [1.6.4](https://github.com/Deepak-png981/Renamer/compare/v1.6.3...v1.6.4) (2024-10-12)
 
 
