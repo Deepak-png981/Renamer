@@ -1,6 +1,6 @@
 import { basename } from "path";
 import { fileContent, fileName, filePath } from "../types/renameFiles";
-import { getAppScriptUrl, getJobId } from "../utils";
+import { getAppScriptUrl, getJobId } from "../env";
 import { httpRequest } from "../services/http.service";
 import logger from "../../logger";
 

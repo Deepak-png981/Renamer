@@ -8,15 +8,12 @@ import { processMarkdownFile } from "./markdown";
 import { processTextFile } from "./text";
 import { processJavaScriptFile } from "./code/javaScript/processJavaScriptFile";
 import { processYamlFile } from "./code/YAML/processYamlFile";
-import { randomUUID } from 'crypto';
-import memoize from 'lodash/memoize';
 import { shareAnalyticsWithAppScript } from "./analytics";
 import { checkFileExists, readFileContent, renameFileIfNecessary } from "./services/file.service";
 
 export const sanitizeFileName = (fileName: fileName): fileName => {
     return fileName.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').trim();
 };
-
 
 async function determineNewFileName(filePath: filePath, content: fileContent , args: CLIArguments): Promise<fileName | null> {
     const fileExtension = extname(filePath);
@@ -74,14 +71,6 @@ export const fixFileNameWithExtension = (filePath : filePath , newFileName: file
     const finalFileName = newFileHasExtension ? newFileName : `${newFileName}${fileExtension}`;
     return finalFileName;
 }
-
-export const getJobId = memoize((): string => {
-    return process.env['EXTERNAL_JOB_ID'] || randomUUID();
-});
-
-export const getAppScriptUrl = memoize((): string => {
-    return process.env['APP_SCRIPT_URL'] || '' ;
-});
 
 export const cleanFileNameExtension = (fileName: fileName): fileName => {
     const extensionRegex = /\.[a-zA-Z0-9]+$/;
