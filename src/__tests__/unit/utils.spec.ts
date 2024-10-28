@@ -1,10 +1,10 @@
-import { httpRequest, sanitizeFileName } from '../../utils';  
+import { sanitizeFileName } from '../../utils';  
+import { httpRequest } from '../../services/http.service';
 import logger from '../../../logger';
 import { processFile } from '../../utils';
 import fs from 'fs';
-import path, { basename } from 'path';
+import { basename } from 'path';
 
-import { processTextFile } from '../../text';
 global.fetch = jest.fn();
 
 jest.mock('../../../logger', () => ({

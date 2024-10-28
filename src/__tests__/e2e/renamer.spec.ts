@@ -89,7 +89,6 @@ describe('Renamer E2E Tests', () => {
   test('Shares analytics with App Script', async () => {
     const { stdout } = await execa('npx', ['ts-node', 'renamer.ts', '--path', testDir, '--debug']);
     expect(stdout).toContain('Starting file renamer...');
-    const files = fs.readdirSync(testDir);
     expect(stdout).toContain('Rename operation complete.');
     expect(stdout).toContain('Saving File Renaming Info ...');
   });
