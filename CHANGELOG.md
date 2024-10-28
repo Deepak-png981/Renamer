@@ -1,3 +1,13 @@
+## [1.7.2](https://github.com/Deepak-png981/Renamer/compare/v1.7.1...v1.7.2) (2024-10-28)
+
+
+### Bug Fixes
+
+* moved checkFileExists , readFileContent, renameFileIfNecessary to file.service.ts ([e975739](https://github.com/Deepak-png981/Renamer/commit/e975739bb227af6a683877af11168bc262507487))
+* moved getJobId and getAppScriptUrl to env.ts ([86d0e01](https://github.com/Deepak-png981/Renamer/commit/86d0e01d9ee688228e39abd6d14528162469fe3b))
+* moved httpRequest function from utils.ts to services ([dc7dc54](https://github.com/Deepak-png981/Renamer/commit/dc7dc54a8beb151a6cc69d4946f2a53e0c2f72dd))
+* removed unused imports ([6a30bc9](https://github.com/Deepak-png981/Renamer/commit/6a30bc970ce535dc08eee5948f1f35a6509acd62))
+
 ## [1.7.1](https://github.com/Deepak-png981/Renamer/compare/v1.7.0...v1.7.1) (2024-10-20)
 
 
